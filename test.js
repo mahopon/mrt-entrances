@@ -2,7 +2,7 @@ $(document).ready(() => {
     var mrt = "woodlands".toUpperCase();
     var pageNum = 1;
     
-    console.log(mrt);
+    $("#data").append(`<h3>${mrt}</h3><ul id=${mrt}data></ul>`)
     getData(mrt, pageNum);
 });
 
@@ -24,16 +24,14 @@ function processData(mrt, data) {
     
     for (let i = 0; i < data.results.length; i++) {
         let currentSelection = data.results[i];
-        let searchBefore = currentSelection.SEARCHVAL.search(re);
-        let searchAfter = currentSelection.SEARCHVAL.search(re) >= 0 ? searchBefore + 13 : searchBefore;
-        if (searchAfter == -1)
-            throw (new Error("No data"));
-
-        if (currentSelection.SEARCHVAL.slice(0,searchBefore) !== mrt) {
+        let searchVAL = currentSelection.SEARCHVAL;
+        let searchBefore = searchVAL.search(re);
+        let searchAfter = searchVAL.search(re) >= 0 ? searchBefore + 13 : searchBefore;
+        if (searchAfter == -1 || searchVAL.slice(0,searchBefore) !== mrt)
             continue;
-        };
-        console.log(currentSelection.SEARCHVAL.slice(searchAfter, currentSelection.SEARCHVAL.length));
-        console.log(currentSelection.LATITUDE + ", "+ currentSelection.LONGITUDE);
+
+        $(`#${mrt}data`).append(`<li id="${mrt}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+searchVAL.slice(searchAfter, searchVAL.length)+"</li> ");
+        $(`#${mrt}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+currentSelection.LATITUDE + ", "+ currentSelection.LONGITUDE+"</p>");
     }
 
     if (data.totalNumPages > 1) {
