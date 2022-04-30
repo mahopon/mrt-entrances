@@ -34,9 +34,8 @@ function processData(mrt, data) {
         $(`#${mrt}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+currentSelection.LATITUDE + ", "+ currentSelection.LONGITUDE+"</p>");
     }
 
-    if (data.totalNumPages > 1) {
-        for (let i = data.pageNum+1; i <= data.totalNumPages; i++)
-            getData(mrt, i)
+    if (data.totalNumPages > 1 && data.pageNum + 1 <= data.totalNumPages) {
+        getData(mrt, data.pageNum + 1)
     }
 }
 
