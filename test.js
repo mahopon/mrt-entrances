@@ -1,10 +1,14 @@
 $(document).ready(() => {
-    var mrt = "woodlands".toUpperCase();
-    var pageNum = 1;
+    let mrt = "woodlands".toUpperCase();
     
-    $("#data").append(`<h3>${mrt}</h3><ul id=${mrt}data></ul>`)
-    getData(mrt, pageNum);
+    startRetrieval(mrt);
 });
+
+function startRetrieval(mrt) {
+    $("#data").append(`<h3>${mrt}</h3><ul id=${mrt}data></ul>`)
+    let pageNum = 1;
+    getData(mrt, pageNum);
+}
 
 async function getData(mrt, pageNum) {
     await sleep(1000);
