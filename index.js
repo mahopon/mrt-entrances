@@ -52,7 +52,7 @@ function processData(mrt, data) {
             continue;
 
         $(`#${mrtNoWs}data`).append(`<li id="${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+searchVAL.slice(searchAfter, searchVAL.length)+"</li> ");
-        $(`#${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+ parseFloat(currentSelection.LATITUDE).toFixed(7) + ", "+ parseFloat(currentSelection.LONGITUDE).toFixed(7)+"</p>");
+        $(`#${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+ parseFloat(currentSelection.LATITUDE).toFixed(7) + ", "+ parseFloat(currentSelection.LONGITUDE).toFixed(7)+"</p><br>");
     }
 
     if (data.totalNumPages > 1 && data.pageNum + 1 <= data.totalNumPages) {
