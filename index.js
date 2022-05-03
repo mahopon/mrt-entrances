@@ -1,41 +1,57 @@
 $(document).ready(() => {
-    let mrt = "woodlands".toUpperCase();
+    $("#submitlist").click(() => {
+        if ($("#mrtlist").get(0).files.length !== 0) {
+            let file = $("#mrtlist").prop('files')[0];
+            file.text()
+            .then((data) => {
+                let stations = data.split("\r\n");
+                startRetrieval(stations);
+            });
+        } else 
+            alert("ho");
+    })
     
-    startRetrieval(mrt);
 });
 
-function startRetrieval(mrt) {
-    $("#data").append(`<h3>${mrt}</h3><ul id=${mrt}data></ul>`)
+async function startRetrieval(stations) {
     let pageNum = 1;
-    getData(mrt, pageNum);
+    let timer = 2000;
+    for (let i = 0; i < stations.length; i++) {
+        console.log(stations[i]);
+        getData(stations[i].toUpperCase(), pageNum);
+        await sleep(timer);
+    }
 }
 
-async function getData(mrt, pageNum) {
-    await sleep(1000);
+function getData(mrt, pageNum) {
+    const mrtNoWs = mrt.replaceAll(" ", "").toLowerCase();
     let url = `https://developers.onemap.sg/commonapi/search?searchVal=${mrt} mrt station exit&returnGeom=Y&getAddrDetails=Y&pageNum=${pageNum}`;
     $.get(url, (data) => {
+        if (data.found < 1) {
+            $("#ndata").append(`<p>${mrt}</p><br>`)
+            return;
+        }
+        if (pageNum === 1)
+            $("#data").append(`<h3>${mrt}</h3><ul id=${mrtNoWs}data></ul>`)
         processData(mrt, data);
     })
 }
 
 function processData(mrt, data) {
     console.log(data);
-    if (data.found < 1) {
-        throw (new Error("No data"));
-    }   
-    
     const re = new RegExp(" MRT STATION EXIT ");
+    const mrtNoWs = mrt.replaceAll(" ", "").toLowerCase();
     
     for (let i = 0; i < data.results.length; i++) {
         let currentSelection = data.results[i];
         let searchVAL = currentSelection.SEARCHVAL;
         let searchBefore = searchVAL.search(re);
-        let searchAfter = searchVAL.search(re) >= 0 ? searchBefore + 13 : searchBefore;
+        let searchAfter = searchBefore >= 0 ? searchBefore + 13 : searchBefore;
         if (searchAfter == -1 || searchVAL.slice(0,searchBefore) !== mrt)
             continue;
 
-        $(`#${mrt}data`).append(`<li id="${mrt}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+searchVAL.slice(searchAfter, searchVAL.length)+"</li> ");
-        $(`#${mrt}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+currentSelection.LATITUDE + ", "+ currentSelection.LONGITUDE+"</p>");
+        $(`#${mrtNoWs}data`).append(`<li id="${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+searchVAL.slice(searchAfter, searchVAL.length)+"</li> ");
+        $(`#${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+currentSelection.LATITUDE + ", "+ currentSelection.LONGITUDE+"</p>");
     }
 
     if (data.totalNumPages > 1 && data.pageNum + 1 <= data.totalNumPages) {
