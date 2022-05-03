@@ -32,12 +32,22 @@
             margin: .2rem 0;
         }
 
+        #flexbox {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #flexbox ul, #flexbox section {
+            margin: 0 1em;
+        }
     </style>
 </head>
 <body>
     <div>
         <label for="mrtlist">Input list of MRT to be searched: </label><br>
         <input type="file" id="mrtlist" name="mrtlist" accept=".txt"><button id="submitlist">Submit</button>
+    </div>
+    <div id="flexbox"> 
         <ul id="data"><h2>Data</h2></ul>
         <section id="ndata"><h2>Bad data</h2></section>
     </div>
