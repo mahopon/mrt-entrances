@@ -29,6 +29,7 @@ function getData(mrt, pageNum) {
     $.get(url, (data) => {
         if (data.found < 1) {
             $("#ndata").append(`<p>${mrt}</p><br>`)
+            $("#data").append(`<h3>${mrt}</h3>`)
             return;
         }
         if (pageNum === 1)
