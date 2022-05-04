@@ -51,7 +51,7 @@ function processData(mrt, data) {
         if (searchAfter == -1 || searchVAL.slice(0,searchBefore) !== mrt)
             continue;
 
-        $(`#${mrtNoWs}data`).append(`<li id="${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+searchVAL.slice(searchAfter, searchVAL.length)+"</li> ");
+        $(`#${mrtNoWs}data`).append(`<li id="${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}">`+"<p>"+searchVAL.slice(searchAfter, searchVAL.length)+"</p></li>");
         $(`#${mrtNoWs}item${searchVAL.slice(searchVAL.length -1, searchVAL.length)}`).append("<p>"+ parseFloat(currentSelection.LATITUDE).toFixed(7) + ", "+ parseFloat(currentSelection.LONGITUDE).toFixed(7)+"</p><br>");
     }
 

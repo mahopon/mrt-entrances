@@ -67,7 +67,6 @@ Farrer Road
 Botanic Gardens
 Caldecott
 Marymount
-Bishan
 Lorong Chuan
 Serangoon
 Bartley
@@ -109,6 +108,7 @@ Tampines East
 Upper Changi
 Expo
 Changi Airport
+Rochor
 Farrer Park
 Boon Keng
 Potong Pasir
